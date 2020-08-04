@@ -6,8 +6,9 @@ import anetos.software.byjuszyoin.R
 import anetos.software.byjuszyoin.core.BaseActivity
 import anetos.software.byjuszyoin.data.model.Articles
 
+
 class NewsDetailActivity : BaseActivity() {
-    val TAG = javaClass.simpleName
+    //val TAG = javaClass.simpleName
 
     private lateinit var adapter: NewsDetailAdapter
     lateinit var viewPager: ViewPager
@@ -17,11 +18,8 @@ class NewsDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_news_detail)
         viewPager = findViewById(R.id.pager)
 
-        //utils = new Utils(getApplicationContext());
-        val i = intent
-        val position = i.getIntExtra("position", 0)
-
-        val itemArrayList = intent.getParcelableArrayListExtra<Articles>("news_detail")
+        val position = intent.getIntExtra("position", 0)
+        val itemArrayList = intent.getParcelableArrayListExtra<Articles>("news_detail")!!
 
         adapter = NewsDetailAdapter(
             this@NewsDetailActivity,

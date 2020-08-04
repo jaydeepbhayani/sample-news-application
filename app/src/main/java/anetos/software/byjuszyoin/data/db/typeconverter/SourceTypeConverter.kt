@@ -6,22 +6,28 @@ import anetos.software.byjuszyoin.data.model.Source
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SourceTypeConverter {
+/**
+ * * [SourceTypeConverter]
+ * Type Converter to convert [SourceTypeConverter] type of data to insert in table in [RoomDatabse]
+ * @author
+ * created by Jaydeep Bhayani on 30/07/2020
+ */
+
+
+object SourceTypeConverter {
     var gson = Gson()
 
+    @JvmStatic
     @TypeConverter
-    fun storedStringToSource(data: String?): Source? {
+    fun storedStringToTranslations(data: String?): Source {
         if (data == null) {
-            return null
+            return emptyList<Any>() as Source
         }
-        val listType =
-            object : TypeToken<Source?>() {}.type
-        return gson.fromJson(
-            data,
-            listType
-        )
+        val listType = object : TypeToken<Source?>() {}.type
+        return gson.fromJson(data, listType)
     }
 
+    @JvmStatic
     @TypeConverter
     fun sourceToStoredString(myObjects: Source?): String {
         val gson = Gson()

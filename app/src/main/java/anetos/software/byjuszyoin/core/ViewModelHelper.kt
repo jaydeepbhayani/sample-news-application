@@ -1,9 +1,7 @@
 package anetos.software.byjuszyoin.core
 
-import android.app.Service
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import anetos.software.byjuszyoin.data.repository.Injection

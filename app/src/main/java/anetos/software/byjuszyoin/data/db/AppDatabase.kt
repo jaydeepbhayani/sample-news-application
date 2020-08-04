@@ -6,21 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**
+ * * [AppDatabase]
  * Application Database
- *
+ * @author
  * created by Jaydeep Bhayani on 30/07/2020
  */
 
 @Database(
-    entities = [Articles::class, SafeRoute::class],
+    entities = [Articles::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun articlesDao(): ArticlesDao
-
-    abstract fun routeDao(): RouteDao
 
     companion object {
         private const val DB_NAME = "BYJUSzyoin"

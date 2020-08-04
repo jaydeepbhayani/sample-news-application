@@ -19,7 +19,7 @@
     <color name="colorRecyclerLineDivider">@color/colorPrimaryDark</color>
     <color name="colorLineDivider">@color/colorYellow</color>
     <color name="colorTabTint">@color/colorAccent</color>
-
+    <color name="logoColor">#1a73e8</color>
 
     <color name="transparant">#ad131313</color>
 

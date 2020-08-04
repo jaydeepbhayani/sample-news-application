@@ -13,13 +13,22 @@ import anetos.software.byjuszyoin.R
 import anetos.software.byjuszyoin.data.model.Articles
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_news_detail.view.*
+import java.util.ArrayList
+
+/**
+ * * [NewsDetailAdapter]
+ *
+ * [PagerAdapter] class for showing news detail.
+ * @author
+ * created by Jaydeep Bhayani on 30/07/2020
+ */
 
 class NewsDetailAdapter // constructor
     (
     private val activity: Activity,
     private val itemArrayList: ArrayList<Articles>
 ) : PagerAdapter() {
-    val TAG = javaClass.simpleName
+    //val TAG = javaClass.simpleName
     private var inflater: LayoutInflater? = null
     override fun getCount(): Int {
         return itemArrayList.size

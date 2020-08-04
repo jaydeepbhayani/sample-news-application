@@ -5,8 +5,10 @@ import anetos.software.byjuszyoin.data.api.remote.RemoteDataSourceImpl
 import anetos.software.byjuszyoin.data.model.AppDatabase
 
 /**
- * All the viewModel Injections will go here.
+ * *[Injection]
  *
+ * All the viewModel Injections will go here.
+ * @author
  * created by Jaydeep Bhayani on 30/07/2020
  */
 object Injection {

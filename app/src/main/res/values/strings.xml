@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BYJUSzyoin</string>
     <string name="title_headlines">H e a d l i n e s</string>
+    <string name="powered_by_newsapi_org">Powered by - newsapi.org</string>
+    <string name="news_api">News API</string>
+    <string name="news">News</string>
+    <string name="api">API</string>
 </resources>

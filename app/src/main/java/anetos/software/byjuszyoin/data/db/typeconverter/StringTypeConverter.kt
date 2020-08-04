@@ -4,6 +4,13 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+/**
+ * * [StringTypeConverter]
+ * Type Converter to convert [StringTypeConverter] type of data to insert in table in [RoomDatabse]
+ * @author
+ * created by Jaydeep Bhayani on 30/07/2020
+ */
+
 object StringTypeConverter {
     @TypeConverter
     fun fromString(value: String?): List<String> {

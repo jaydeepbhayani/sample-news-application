@@ -13,6 +13,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+/**
+ *  [Networking]
+ *  @author
+ *  created by Jaydeep Bhayani on 30/07/2020
+ */
+
 object Networking {
     private const val NETWORK_CALL_TIMEOUT = 60
 

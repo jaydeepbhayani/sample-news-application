@@ -1,2 +1,2 @@
-package anetos.software.byjuszyoin.data.model
+package anetos.software.byjuszyoin.data.db
 

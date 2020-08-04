@@ -1,13 +1,12 @@
 package anetos.software.byjuszyoin.ui.home
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,12 +19,23 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
+/**
+ * * [TopHeadlinesAdapter]
+ *
+ * [RecyclerView.Adapter] class for showing Top-Headlines of news.
+ * @author
+ * created by Jaydeep Bhayani on 30/07/2020
+ */
+
 class TopHeadlinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TAG = javaClass.simpleName
     var itemArrayList: List<Articles> = ArrayList()
     lateinit var context: Context
 
     var onItemClick: onItemclickListener? = null
+
+    // Allows to remember the last item shown on screen
+    private var lastPosition = -1
 
     fun setData(mContext: Context, setList: List<Articles>) {
         itemArrayList = setList
@@ -80,7 +90,7 @@ class TopHeadlinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 ): Boolean {
                     // Log successes here or use DataSource to keep track of cache hits and misses.
 
-                    return false; // Allow calling onResourceReady on the Target.
+                    return false // Allow calling onResourceReady on the Target.
                 }
             })
             .into(holder.ivBackground)
@@ -89,6 +99,8 @@ class TopHeadlinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             //onItemClick?.onItemClick(position, data)
             onItemClick?.onItemClick(position, itemArrayList)
         }
+
+        setAnimation(holder.itemView, position)
     }
 
     override fun getItemCount(): Int {
@@ -115,9 +127,9 @@ class TopHeadlinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun getData(): List<Articles> {
+    /*fun getData(): List<Articles> {
         return itemArrayList
-    }
+    }*/
 
     interface onItemclickListener {
         //fun onItemClick(position: Int, data: Articles)
@@ -126,5 +138,20 @@ class TopHeadlinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setonItemClickListener(onItemclickListener: onItemclickListener) {
         this.onItemClick = onItemclickListener
+    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(
+                context,
+                android.R.anim.slide_in_left
+            )
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
     }
 }

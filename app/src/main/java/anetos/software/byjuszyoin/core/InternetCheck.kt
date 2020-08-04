@@ -5,6 +5,12 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 
+/**
+ *  [InternetCheck]
+ *  @author
+ *  created by Jaydeep Bhayani on 30/07/2020
+ */
+
 class InternetCheck(private val onInternetChecked: (Boolean) -> Unit) :
     AsyncTask<Void, Void, Boolean>() {
     init {
@@ -24,9 +30,9 @@ class InternetCheck(private val onInternetChecked: (Boolean) -> Unit) :
     }
 
     override fun onPostExecute(internet: Boolean) {
-        try{
-        onInternetChecked(internet)}
-        catch (e:Exception){
+        try {
+            onInternetChecked(internet)
+        } catch (e: Exception) {
 
         }
     }

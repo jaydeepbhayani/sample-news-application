@@ -4,6 +4,13 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+/**
+ * * [NestedTypeConverter]
+ * Type Converter to convert [NestedTypeConverter] or [Any] type of data to insert in table in [RoomDatabse]
+ * @author
+ * created by Jaydeep Bhayani on 30/07/2020
+ */
+
 object NestedTypeConverter {
     @TypeConverter
     fun fromObject(value: String?): List<Any> {

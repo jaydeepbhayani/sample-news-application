@@ -2,8 +2,9 @@ package anetos.software.byjuszyoin.data.api
 
 
 /**
- * Api service interface to handle all the data from retrofit
- *
+ * * [Exception]
+ * RemoteDataNotFoundException to handle exception from response
+ * @author
  * created by Jaydeep Bhayani on 30/07/2020
  */
 
