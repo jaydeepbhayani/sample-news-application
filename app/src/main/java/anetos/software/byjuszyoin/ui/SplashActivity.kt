@@ -39,7 +39,7 @@ class SplashActivity : BaseActivity() {
         tvCredit.startAnimation(slideLeftToRight)
         Handler().postDelayed({
             startActivity(Intent(this, HomeActivity::class.java))
-            //finish()
+            finish()
         }, 2000)
     }
 }

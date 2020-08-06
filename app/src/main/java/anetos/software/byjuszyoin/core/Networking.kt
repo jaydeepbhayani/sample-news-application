@@ -34,7 +34,7 @@ object Networking {
                 OkHttpClient.Builder()
                     .cache(cacheSize)
                     .addInterceptor { chain ->
-                        var request = chain.request()
+                        val request = chain.request()
                         InternetCheck { internet ->
                             if (internet) {
                                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5)

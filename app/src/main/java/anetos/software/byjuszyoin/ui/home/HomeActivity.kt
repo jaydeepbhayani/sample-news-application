@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,22 +19,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class HomeActivity : BaseActivity() {
-    //val TAG = javaClass.simpleName
+    val TAG = javaClass.simpleName
 
     private lateinit var viewModel: DataViewModel
 
     lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
-    private var pastVisiblesItems = 0
-    private var visibleItemCount: Int = 0
-    private var totalItemCount: Int = 0
-    private var loading = true
-    var loaded = true
-    private var mLoadedItems = 0
-    private val pageSize: Int = 10
-    private var linearLayoutManager: LinearLayoutManager? = null
+    private val pageSize: Int = 50
+    private var page = 0
 
-
-    private val articleArrayList: ArrayList<Articles> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +36,18 @@ class HomeActivity : BaseActivity() {
         refreshData()
 
         progress.visibility = VISIBLE
-        addDataToList()
-        /*viewModel.topHeadlinesData.observe(this, Observer { values ->
+        viewModel.topHeadlinesData.observe(this, Observer { values ->
             progress.visibility = GONE
             if (values != null) {
                 topHeadlinesAdapter.setData(this, values.articles)
+                //topHeadlinesAdapter.submitList(values.articles)
+            } else {
+                if (viewModel.getAllArticles().isEmpty()) {
+                    errorLayout.visibility = VISIBLE
+                    showSnackBar(container, "\uD83D\uDE28 Something went wrong.", "OK")
+                }
             }
-        })*/
+        })
 
         swipeRefreshLayout.refresh()
         swipeRefreshLayout.setOnRefreshListener {
@@ -70,9 +66,9 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setAdapter() {
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         topHeadlinesAdapter = TopHeadlinesAdapter()
-        linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvHeadlines.layoutManager = linearLayoutManager
+        rvHeadlines.layoutManager = layoutManager
         rvHeadlines.adapter = topHeadlinesAdapter
 
         //animation
@@ -80,25 +76,13 @@ class HomeActivity : BaseActivity() {
         rvHeadlines.scheduleLayoutAnimation()
 
         rvHeadlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(
-                @NonNull recyclerView: RecyclerView,
-                dx: Int,
-                dy: Int
-            ) {
-                if (dy > 0) //check for scroll down
-                {
-                    visibleItemCount = linearLayoutManager!!.childCount
-                    totalItemCount = linearLayoutManager!!.itemCount
-                    pastVisiblesItems = linearLayoutManager!!.findFirstVisibleItemPosition()
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = layoutManager.itemCount
+                val visibleItemCount = layoutManager.childCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                    if (loading) {
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
-                            loading = false
-                            //getNextListVideo();
-                            addDataToList()
-                        }
-                    }
-                }
+                //listScrolled(visibleItemCount, lastVisibleItem, totalItemCount)
             }
         })
 
@@ -114,13 +98,12 @@ class HomeActivity : BaseActivity() {
                 startActivity(intent)
             }
         })
-        topHeadlinesAdapter.setData(this, articleArrayList)
     }
 
     private fun refreshData() {
         InternetCheck { internet ->
             if (internet) {
-                //viewModel.refreshTopHeadlinesData("us")
+                viewModel.refreshTopHeadlinesData("us", pageSize, page)
                 errorLayout.visibility = GONE
             } else {
                 progress.visibility = GONE
@@ -136,27 +119,12 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    private fun addDataToList() {
-        viewModel.refreshTopHeadlinesData("us", pageSize, mLoadedItems)
-
-        viewModel.topHeadlinesData.observe(this, Observer { values ->
-            progress.visibility = GONE
-            if (values.articles?.size != 0) {
-                values.articles?.let { articleArrayList.addAll(it) }
-
-                /*for (items in values.articles) {
-                    articleArrayList.add(items)
-                }*/
-                values.articles = emptyList()
-
-                topHeadlinesAdapter.notifyDataSetChanged()
-                mLoadedItems++
-                loading = true
-            } else {
-                if (values.totalResults == articleArrayList.size - pageSize) {
-                    showSnackBar(container, "No more items", "OK")
-                }
-            }
-        })
+    fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
+        if (visibleItemCount + lastVisibleItemPosition + DataViewModel.VISIBLE_THRESHOLD >= totalItemCount) {
+            viewModel.refreshTopHeadlinesData("us", 10, page)
+            //page++
+            //Log.e(TAG, page.toString())
+        }
     }
+
 }

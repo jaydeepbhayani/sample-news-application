@@ -12,7 +12,6 @@ import anetos.software.byjuszyoin.data.model.AppDatabase
  * created by Jaydeep Bhayani on 30/07/2020
  */
 object Injection {
-
     fun provideDataRepository(context: Context) =
         DataRepository(
             RemoteDataSourceImpl.newInstance(context),

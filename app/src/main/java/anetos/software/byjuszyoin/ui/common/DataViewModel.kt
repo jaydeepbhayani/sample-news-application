@@ -24,6 +24,8 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
     companion object {
         val FACTORY =
             viewModelFactoryWithSingleArg(::DataViewModel)
+
+        const val VISIBLE_THRESHOLD = 5
     }
 
 
@@ -35,6 +37,7 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
     fun refreshTopHeadlinesData(country: String, pageSize: Int, page: Int) {
         launchDataLoad { repository.refreshTopHeadlinesData(country, pageSize, page) }
     }
+
 
     fun getAllArticles(): List<Articles> = repository.getAllArticles()
 

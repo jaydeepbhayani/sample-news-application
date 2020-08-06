@@ -26,7 +26,7 @@ data class TopHeadLinesResponse(
     @SerializedName("totalResults")
     var totalResults: Int? = null,
     @SerializedName("articles")
-    var articles: List<Articles>? = null,
+    var articles: List<Articles>,
     /*
     * error
     * */

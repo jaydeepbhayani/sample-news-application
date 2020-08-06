@@ -19,6 +19,9 @@ open class DataMainRepository
  * @author
  * created by Jaydeep Bhayani on 30/07/2020
  */
+
+private const val GITHUB_STARTING_PAGE_INDEX = 1
+
 class DataRepository(
     private val dataSource: RemoteDataSource,
     private val appDatabase: AppDatabase
@@ -27,6 +30,10 @@ class DataRepository(
     //RemoteDataSourceRepo
 
     val topHeadlinesData: MutableLiveData<TopHeadLinesResponse> = MutableLiveData()
+    // keep the last requested page. When the request is successful, increment the page number.
+    private var lastRequestedPage = GITHUB_STARTING_PAGE_INDEX
+    // avoid triggering multiple requests in the same time
+    private var isRequestInProgress = false
 
     /**
      * [Live Data] to load topHeadlinesData.  topHeadlinesData's will be loaded from the repository cache.
@@ -38,6 +45,8 @@ class DataRepository(
                 val result = dataSource.getTopHeadlinesData(country, pageSize, page)
                 if (result is Result.Success) {
                     topHeadlinesData.postValue(result.data)
+                } else {
+                    topHeadlinesData.postValue(null)
                 }
 
             } catch (error: RemoteDataNotFoundException) {

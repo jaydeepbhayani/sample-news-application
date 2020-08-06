@@ -26,7 +26,11 @@ class RemoteDataSourceImpl private constructor(
     /**
      *  get top headlines according to given country
      */
-    override suspend fun getTopHeadlinesData(country: String, pageSize: Int,page: Int): Result<TopHeadLinesResponse> =
+    override suspend fun getTopHeadlinesData(
+        country: String,
+        pageSize: Int,
+        page: Int
+    ): Result<TopHeadLinesResponse> =
         withContext(Dispatchers.IO) {
             /*val request =
                 apiService.getTopHeadlinesDataAsync(
@@ -38,16 +42,16 @@ class RemoteDataSourceImpl private constructor(
                 apiService.getTopHeadlinesDataAsync(
                     country, pageSize, page
                 )
+
+
             try {
-                val response = request.await()
-                if (response.status.equals("ok", ignoreCase = true)) {
+                val response  = request.await()
+                //if (response.status.equals("ok", ignoreCase = true))
                     Log.d("test", "result.getTopHeadlinesData : $response")
                     appdatabase.articlesDao().deleteAll()
-                    response.articles?.let { appdatabase.articlesDao().insertAll(it) }
+                    appdatabase.articlesDao().insertAll(response.articles)
                     Result.Success(response)
-                } else {
-                    Result.Error(RemoteDataNotFoundException())
-                }
+
             } catch (ex: HttpException) {
                 Result.Error(RemoteDataNotFoundException())
             } catch (ex: Throwable) {
